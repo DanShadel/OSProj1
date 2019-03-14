@@ -118,21 +118,13 @@ class monitor
 		int len = processes.size();
 		int increment = len/5; //5 processors
 
-		for(int i = 0; i < increment; i++) //PA = 2GHz, slow
+		for(int i = 0; i < 2*increment; i++) //PA = PB = 2GHz, slow
 		{
-			cpus.at(0)->assigned.push_back(processes.at(i));
+			cpus.at(i%2)->assigned.push_back(processes.at(i));
 		}
-		for(int i = increment; i < 2*increment; i++) //PB = 2GHz, slow
+		for(int i = 2*increment; i < 4*increment; i++) //PC = PD = 3GHz, medium
 		{
-			cpus.at(1)->assigned.push_back(processes.at(i));
-		}
-		for(int i = 2*increment; i < 3*increment; i++) //PC = 3GHz, medium
-		{
-			cpus.at(2)->assigned.push_back(processes.at(i));
-		}
-		for(int i = 3*increment; i < 4*increment; i++) //PD = 3GHz, medium
-		{
-			cpus.at(3)->assigned.push_back(processes.at(i));
+			cpus.at(i%2 + 2)->assigned.push_back(processes.at(i));
 		}
 		for(int i = 4*increment; i < len; i++) //PE = 4GHz, fast
 		{
