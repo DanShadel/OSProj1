@@ -10,6 +10,8 @@ PC= PD = 3 GHz and PE= 4 GHz
 #include <algorithm> //sort
 #include <time.h>
 #include <stdlib.h>
+#include <chrono>
+#include <ctime>
 
 using namespace std;
 
@@ -81,10 +83,12 @@ class monitor
                     P = new process(i, cycles, mem);
                     processes.push_back(P);
                 }
-
+                auto start = std::chrono::system_clock::now(); //get start time
                 //do insertion sort here
                 insertion_sort(processes);
-
+                auto end = std::chrono::system_clock::now(); //get start time
+                 std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+                 cout << "\nElapsed time to sort processes: " << elapsed_seconds.count() << "s\n\n";
 
                 for(int i=0; i<200; i++) //generate 200 processess
                 {
@@ -191,10 +195,14 @@ int main()
 
     mon->gen_CPU();
 
+    auto start = std::chrono::system_clock::now(); //get start time
 	//dispatch short processes to slow processors and long processes to fast processors
     mon->assign();
+    auto end = std::chrono::system_clock::now(); //get end time
 
     mon->print_lists();
 
+    std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+    cout << "\nElapsed time to assign processes: " << elapsed_seconds.count() << "s\n";
     return 0;
 }
