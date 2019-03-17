@@ -8,6 +8,8 @@ one in the order that they arrive. What is the best turnaround time that you can
 #include <vector>
 #include <time.h>
 #include <stdlib.h>
+#include <chrono>
+#include <ctime>
 
 using namespace std;
 
@@ -135,9 +137,13 @@ int main()
     //Make processors
     mon->gen_CPU();
    //assign processes to processors using FIFO
+    auto start = std::chrono::system_clock::now(); //get start time
     mon->assign();
+    auto end = std::chrono::system_clock::now(); //get end time
     //print lists
     mon->print_lists();
 
+    std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+    cout << "\nElapsed time to assign processes: " << elapsed_seconds.count() << "s\n";
     return 0;
 }

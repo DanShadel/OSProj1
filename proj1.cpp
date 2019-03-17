@@ -9,6 +9,9 @@ time to complete all 200 processes is minimized.
 #include <algorithm> //sort
 #include <time.h>
 #include <stdlib.h>
+#include <chrono>
+#include <ctime>
+
 
 using namespace std;
 
@@ -80,11 +83,13 @@ class monitor
                     P = new process(i, cycles, mem);
                     processes.push_back(P);
                 }
-                
+                auto start = std::chrono::system_clock::now(); //get end time
                 //do insertion sort here
                 insertion_sort(processes);
-           
+          		auto end = std::chrono::system_clock::now(); //get end time
                 
+				std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+				cout << "\nElapsed time to sort: " << elapsed_seconds.count() << "s\n\n";
                // sort(processes.begin()->getcycles(), processes.end()->getcycles()); // maybe?????  
                 for(int i=0; i<200; i++) //generate 200 processess
                 {
@@ -142,7 +147,7 @@ class monitor
                   int i = 0, j = 0;
                   process *temp;
                   int n = processes.size(); //https://www.geeksforgeeks.org/vector-in-cpp-stl/
-                  
+                
                   for(i=0;i<n;i++)
                   {
                       j=0;
@@ -154,6 +159,7 @@ class monitor
                       processes.erase(processes.begin()+i+1);//remove the duplicate element
              
                   }
+
 
                 return;
             }
@@ -168,17 +174,22 @@ int main()
     int i = 0;
     monitor* mon;
     mon = new monitor;
+	
     //generate list of processes & sort them in increasing order
     mon->gen_processes();
     //Make processors
    
     mon->gen_CPU();
-   
+	auto start = std::chrono::system_clock::now(); //get start time
     mon->assign();
-    
+	auto end = std::chrono::system_clock::now(); //get end time
     mon->print_lists();
-    
 
+	std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+ 
+    //std::cout << "finished computation at " << std::ctime(&end_time)
+        cout << "\nElapsed time to assign processes: " << elapsed_seconds.count() << "s\n";
     //dispatch SJF to free processors
 
     return 0;
