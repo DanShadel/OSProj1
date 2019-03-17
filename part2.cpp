@@ -211,7 +211,7 @@ int main()
     mon->print_lists();
     
     std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
-    cout << "\nElapsed time to sort processes: " << elapsed_seconds.count() << "s\n\n";
+    cout << "\nElapsed time to assign processes: " << elapsed_seconds.count() << "s\n\n";
     //dispatch SJF to free processors
 
     return 0;
