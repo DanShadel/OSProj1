@@ -9,6 +9,8 @@ time to complete all 200 processes is minimized.
 #include <algorithm> //sort
 #include <time.h>
 #include <stdlib.h>
+#include <chrono>
+#include <ctime>
 
 using namespace std;
 
@@ -80,11 +82,12 @@ class monitor
                     P = new process(i, cycles, mem);
                     processes.push_back(P);
                 }
-                
+                auto start = std::chrono::system_clock::now(); //get start time
                 //do insertion sort here
                 insertion_sort(processes);
-           
-                
+                auto end = std::chrono::system_clock::now(); //get end time
+                std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+                cout << "\nElapsed time to sort processes: " << elapsed_seconds.count() << "s\n\n";
                // sort(processes.begin()->getcycles(), processes.end()->getcycles()); // maybe?????  
                 for(int i=0; i<200; i++) //generate 200 processess
                 {
@@ -202,12 +205,13 @@ int main()
     //Make processors
    
     mon->gen_CPU();
-   
+    auto start = std::chrono::system_clock::now(); //get start time
     mon->assign();
-    
+    auto end = std::chrono::system_clock::now(); //get end time
     mon->print_lists();
     
-
+    std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+    cout << "\nElapsed time to sort processes: " << elapsed_seconds.count() << "s\n\n";
     //dispatch SJF to free processors
 
     return 0;
