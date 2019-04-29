@@ -14,6 +14,8 @@ once to request the initial 10MB block, hence you are reducing the number of con
 #include <algorithm> //sort
 #include <time.h>
 #include <stdlib.h>
+#include <chrono>
+#include <ctime>
 using namespace std;
 class Process // taken from project 1
 {
@@ -50,7 +52,7 @@ class Process // taken from project 1
         	}
         	else if (cycles <=0 )
         	{
-        		cout << "P " << get_pid() << " complete" << endl;
+        		cout << "P " << get_pid() << " complete." << endl;
         		return 1; //process complete, call my_free
         	}
    
@@ -133,7 +135,7 @@ class Monitor{
 		{
 			for(int i = 0; i < chunk_size.size();i++)
 			{
-				cout << "Chunk index: " << chunk_index.at(i) << ", size: " << chunk_size.at(i) << endl;
+				cout << "Chunk index: " << chunk_index.at(i) << ", size: " << chunk_size.at(i)  << " kB"<< endl;
 			}
 		}//end print_chunks
 		void my_free(Process *p) // freeing up data
@@ -192,7 +194,17 @@ int main()
     Monitor* mon;
     mon = new Monitor;
     mon->init();
+    auto start = std::chrono::system_clock::now(); //get start time
     mon->run();
+    auto end = std::chrono::system_clock::now(); //get end time
+
+    std::chrono::duration<double> elapsed_seconds = end-start; //compute the total time
+    std::time_t end_time = std::chrono::system_clock::to_time_t(end);
+ 
+    //std::cout << "finished computation at " << std::ctime(&end_time)
+        cout << "\nElapsed time to assign processes: " << elapsed_seconds.count() << "s\n";
+    //dispatch SJF to free processors
+
 
 	return 0;
 }
