@@ -83,6 +83,7 @@ class Monitor{
 			{
 				delete processes.at(i);
 			}
+
 		}
 		void run()
 		{
@@ -189,6 +190,7 @@ class Monitor{
 		        processes.push_back(P);
 		        my_malloc(P);//give it memory
 		        cout << "P #" << i << " created. Size:" << mem << ", first memory index:" << P->get_index() << endl;
+		        delete P;
 		    }
 		    	
 
