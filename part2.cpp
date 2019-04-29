@@ -69,13 +69,20 @@ class Monitor{
         vector<Process*> processes;
 
 	public:
-		void init() // init vectors and gen processes.
+		Monitor() // init vectors and gen processes.
 		{
 			//gen 50 processes
 			memory.resize(10000,0); // malloc(10000), init all to 0
 			get_chunks();//find contiguous blocks of memory
 			gen_processes();
 			
+		}
+		~Monitor()
+		{
+			for(int i = 0;i< processes.size();i++)
+			{
+				delete processes.at(i);
+			}
 		}
 		void run()
 		{
@@ -193,7 +200,6 @@ int main()
 
     Monitor* mon;
     mon = new Monitor;
-    mon->init();
     auto start = std::chrono::system_clock::now(); //get start time
     mon->run();
     auto end = std::chrono::system_clock::now(); //get end time
@@ -204,6 +210,8 @@ int main()
     //std::cout << "finished computation at " << std::ctime(&end_time)
         cout << "\nElapsed time to assign processes: " << elapsed_seconds.count() << "s\n";
     //dispatch SJF to free processors
+
+    delete mon;
 
 
 	return 0;
