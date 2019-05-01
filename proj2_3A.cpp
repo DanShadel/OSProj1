@@ -181,7 +181,7 @@ class Monitor
 		{
 			int size = p->getmem(); //get amount of memory needed
 			int best = 50000; //best fit block
-			int index;
+			int index=0;
 			for(int i =0; i < chunk_size.size(); i++)
 			{
 				//if the amount of memory needed is avaliable then get the index
